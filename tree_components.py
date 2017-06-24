@@ -1,5 +1,8 @@
 import random
 
+MUTATION_CHANCE = 2
+LEAF_VAL_MAX = 100
+
 def get_tree( depth ):
 	return get_tree_inner( depth )
 
@@ -46,13 +49,18 @@ def get_internal_node():
 	else:
 		return Multiply()
 
+def get_leaf_node():
+	node = Num()
+	node.val = random.randrange(0, LEAF_VAL_MAX)
+	return node
+
 # Modifying Trees
 def modify( tree ):
 	par = None
 	cur = tree
 	leg = ""
 	while( cur != None ):
-		r = random.randrange(0, 2)
+		r = random.randrange(0, MUTATION_CHANCE)
 		if( r == 0 ):
 			if( isinstance( cur, InternalNode ) ):
 				node = get_internal_node
@@ -68,7 +76,7 @@ def modify( tree ):
 					return tree
 			else:
 				# leaf node, new random value
-				cur.val = random.randrange(0, 100)
+				cur.val = random.randrange(0, LEAF_VAL_MAX)
 		else:
 			if( isinstance( cur, InternalNode ) ):
 				r = random.randrange(0,2)
